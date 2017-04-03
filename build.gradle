@@ -14,9 +14,6 @@ buildscript {
 }
 
 allprojects {
-    version = project.VERSION_NAME
-    group = project.GROUP
-
     repositories {
         jcenter()
     }
