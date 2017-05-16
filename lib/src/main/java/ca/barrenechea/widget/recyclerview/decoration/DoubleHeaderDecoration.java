@@ -242,6 +242,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                     header.setTranslationX(left);
                     header.setTranslationY(top);
                     header.draw(c);
+                    c.restore();
 
                     // draw part of previous header which should be visible
                     if (getBetweenHeadersMargin() != 0 && top <= -getBetweenHeadersMargin() && adapterPos > 0 && mAdapter.getHeaderId(adapterPos) != mAdapter.getHeaderId(adapterPos - 1)) {
