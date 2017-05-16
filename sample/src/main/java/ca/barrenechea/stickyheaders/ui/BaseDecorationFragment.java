@@ -52,7 +52,7 @@ public abstract class BaseDecorationFragment extends Fragment {
                 .setColorResource(R.color.default_header_color)
                 .build();
 
-        mList.setHasFixedSize(true);
+        //mList.setHasFixedSize(true);
         mList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mList.addItemDecoration(divider);
 

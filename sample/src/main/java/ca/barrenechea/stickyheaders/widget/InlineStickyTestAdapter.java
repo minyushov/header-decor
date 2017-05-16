@@ -50,12 +50,12 @@ public class InlineStickyTestAdapter
 
     @Override
     public int getItemCount() {
-        return 50;
+        return 8;
     }
 
     @Override
     public long getHeaderId(int position) {
-        return (long) position / 7;
+        return (long) position / 1;
     }
 
     @Override
