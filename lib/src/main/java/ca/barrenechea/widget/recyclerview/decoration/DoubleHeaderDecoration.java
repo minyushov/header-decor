@@ -162,8 +162,8 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
     }
 
     private boolean hasSubHeader(int position) {
-        if (position == 0) {
-            return true;
+        if (mAdapter.getSubHeaderId(position) == StickyHeaderDecoration.NO_HEADER_ID) {
+            return false;
         }
 
         int previous = position - 1;
@@ -188,14 +188,17 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
 
         int headerHeight = 0;
 
-        if (position != RecyclerView.NO_POSITION && hasSubHeader(position)) {
+        if (position != RecyclerView.NO_POSITION) {
             if (hasHeader(position)) {
                 View header = getHeader(parent, position).itemView;
                 headerHeight += header.getHeight();
             }
 
-            View header = getSubHeader(parent, position).itemView;
-            headerHeight += getSubHeaderHeightForLayout(header);
+            if (hasSubHeader(position))
+            {
+                View header = getSubHeader(parent, position).itemView;
+                headerHeight += getSubHeaderHeightForLayout(header);
+            }
         }
 
         outRect.set(0, headerHeight, 0, 0);
@@ -213,19 +216,23 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
             final View child = parent.getChildAt(layoutPos);
             boolean visible = getAnimatedTop(child) > -child.getHeight()/* && child.getTop() < parent.getHeight()*/;
             final int adapterPos = parent.getChildAdapterPosition(child);
-            if (visible && adapterPos != RecyclerView.NO_POSITION && (!headerDrawn || hasSubHeader(adapterPos))) {
+            if (visible && adapterPos != RecyclerView.NO_POSITION && (!headerDrawn || hasSubHeader(adapterPos) || hasHeader(adapterPos))) {
                 int left, top;
                 final View header = getHeader(parent, adapterPos).itemView;
                 final View subHeader = getSubHeader(parent, adapterPos).itemView;
 
-                c.save();
-                left = child.getLeft();
-                top = getSubHeaderTop(parent, child, header, subHeader, adapterPos, layoutPos);
-                c.translate(left, top);
-                subHeader.setTranslationX(left);
-                subHeader.setTranslationY(top);
-                subHeader.draw(c);
-                c.restore();
+                if (hasSubHeader(adapterPos))
+                {
+                    c.save();
+                    left = child.getLeft();
+                    top = getSubHeaderTop(parent, child, header, subHeader, adapterPos, layoutPos);
+                    //int decrease = header.getHeight() - top;
+                    c.translate(left, top);
+                    subHeader.setTranslationX(left);
+                    subHeader.setTranslationY(top);
+                    subHeader.draw(c);
+                    c.restore();
+                }
 
                 if (!headerDrawn || hasHeader(adapterPos)) {
                     c.save();
@@ -294,8 +301,8 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                         final int headersHeight = header.getHeight() + getHeader(parent, adapterPosHere).itemView.getHeight();
                         final int offset = getAnimatedTop(next) - headersHeight - getSubHeaderHeightForLayout(subHeader);
 
-                        if (offset < 0) {
-                            return offset;
+                        if (offset < getBetweenHeadersMargin()) {
+                            return offset - getBetweenHeadersMargin();
                         } else {
                             break;
                         }
@@ -307,6 +314,14 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
         }
 
         return top;
+    }
+
+    /**
+     * Space adjustment between 2 headers when the first over the second
+     * @return space in pixels
+     */
+    protected int getBetweenHeadersMargin() {
+        return 0;
     }
 
     private boolean isFirstValidChild(int layoutPos, RecyclerView parent) {
