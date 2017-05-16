@@ -213,12 +213,12 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
 
         boolean headerDrawn = false;
         for (int layoutPos = 0; layoutPos < count; layoutPos++) {
-            final View child = parent.getChildAt(layoutPos);
+            View child = parent.getChildAt(layoutPos);
             boolean visible = getAnimatedTop(child) > -child.getHeight()/* && child.getTop() < parent.getHeight()*/;
             final int adapterPos = parent.getChildAdapterPosition(child);
             if (visible && adapterPos != RecyclerView.NO_POSITION && (!headerDrawn || hasSubHeader(adapterPos) || hasHeader(adapterPos))) {
                 int left, top;
-                final View header = getHeader(parent, adapterPos).itemView;
+                View header = getHeader(parent, adapterPos).itemView;
                 final View subHeader = getSubHeader(parent, adapterPos).itemView;
 
                 if (hasSubHeader(adapterPos))
@@ -242,7 +242,22 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                     header.setTranslationX(left);
                     header.setTranslationY(top);
                     header.draw(c);
-                    c.restore();
+
+                    // draw part of previous header which should be visible
+                    if (getBetweenHeadersMargin() != 0 && top <= -getBetweenHeadersMargin() && adapterPos > 0 && mAdapter.getHeaderId(adapterPos) != mAdapter.getHeaderId(adapterPos - 1)) {
+                        header = getHeader(parent, adapterPos - 1).itemView;
+                        child = parent.getChildAt(layoutPos);
+
+                        c.save();
+                        left = child.getLeft();
+                        top = getHeaderTop(parent, child, header, subHeader, adapterPos - 1, layoutPos);
+                        top += getBetweenHeadersMargin() * 2;
+                        c.translate(left, top);
+                        header.setTranslationX(left);
+                        header.setTranslationY(top);
+                        header.draw(c);
+                        c.restore();
+                    }
                 }
 
                 headerDrawn = true;
