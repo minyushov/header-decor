@@ -34,6 +34,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
     private Map<Long, RecyclerView.ViewHolder> mSubHeaderCache;
     private Map<Long, RecyclerView.ViewHolder> mHeaderCache;
     private boolean mRenderInline;
+    private int betweenHeadersMargin = 0;
 
     /**
      * @param adapter the double header adapter to use
@@ -219,14 +220,26 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
             if (visible && adapterPos != RecyclerView.NO_POSITION && (!headerDrawn || hasSubHeader(adapterPos) || hasHeader(adapterPos))) {
                 int left, top;
                 View header = getHeader(parent, adapterPos).itemView;
-                final View subHeader = getSubHeader(parent, adapterPos).itemView;
+                View subHeader = getSubHeader(parent, adapterPos).itemView;
 
                 if (hasSubHeader(adapterPos))
                 {
                     c.save();
                     left = child.getLeft();
                     top = getSubHeaderTop(parent, child, header, subHeader, adapterPos, layoutPos);
-                    //int decrease = header.getHeight() - top;
+                    c.translate(left, top);
+                    subHeader.setTranslationX(left);
+                    subHeader.setTranslationY(top);
+                    subHeader.draw(c);
+                    c.restore();
+                }
+                // draw part of previous subheader which should be visible
+                else if (adapterPos > 0 && mAdapter.getHeaderId(adapterPos) == mAdapter.getHeaderId(adapterPos - 1)) {
+                    subHeader = getSubHeader(parent, adapterPos - 1).itemView;
+
+                    c.save();
+                    left = child.getLeft();
+                    top = getSubHeaderTop(parent, child, header, subHeader, adapterPos - 1, layoutPos);
                     c.translate(left, top);
                     subHeader.setTranslationX(left);
                     subHeader.setTranslationY(top);
@@ -268,7 +281,9 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
 
     private int getSubHeaderTop(RecyclerView parent, View child, View header, View subHeader, int adapterPos, int layoutPos) {
         int top = getAnimatedTop(child) - getSubHeaderHeightForLayout(subHeader);
-        if (isFirstValidChild(layoutPos, parent)) {
+        int maxTop = header.getHeight();
+        //if (isFirstValidChild(layoutPos, parent))
+        {
             final int count = parent.getChildCount();
             final long currentHeaderId = mAdapter.getHeaderId(adapterPos);
             final long currentSubHeaderId = mAdapter.getSubHeaderId(adapterPos);
@@ -298,7 +313,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
             }
         }
 
-        return Math.max(header.getHeight(), top);
+        return Math.max(maxTop, top);
     }
 
     private int getHeaderTop(RecyclerView parent, View child, View header, View subHeader, int adapterPos, int layoutPos) {
@@ -337,7 +352,11 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
      * @return space in pixels
      */
     protected int getBetweenHeadersMargin() {
-        return 0;
+        return betweenHeadersMargin;
+    }
+
+    public void setBetweenHeadersMargin(int betweenHeadersMargin) {
+        this.betweenHeadersMargin = betweenHeadersMargin;
     }
 
     private boolean isFirstValidChild(int layoutPos, RecyclerView parent) {
