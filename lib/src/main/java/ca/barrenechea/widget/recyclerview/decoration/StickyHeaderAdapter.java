@@ -26,6 +26,10 @@ import android.view.ViewGroup;
  */
 public interface StickyHeaderAdapter<T extends RecyclerView.ViewHolder> {
 
+    interface StickyHeaderPositionListener {
+        void onPositionChanged(long headerId, int x, int y);
+    }
+
     /**
      * Returns the header id for the item at the given position.
      *

@@ -17,14 +17,18 @@
 package ca.barrenechea.stickyheaders.ui;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import ca.barrenechea.stickyheaders.R;
 import ca.barrenechea.stickyheaders.widget.StickyTestAdapter;
+import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration;
 
 public class StickyHeaderFragment extends BaseDecorationFragment implements RecyclerView.OnItemTouchListener {
@@ -35,6 +39,13 @@ public class StickyHeaderFragment extends BaseDecorationFragment implements Recy
     protected void setAdapterAndDecor(RecyclerView list) {
         final StickyTestAdapter adapter = new StickyTestAdapter(this.getActivity());
         decor = new StickyHeaderDecoration(adapter);
+        decor.setPositionListener(new StickyHeaderAdapter.StickyHeaderPositionListener() {
+            @Override
+            public void onPositionChanged(long headerId, int x, int y) {
+                Log.d("StickyHeader", String.format(Locale.US, "Header %s: x = %s, y = %s", headerId, x, y));
+            }
+        });
+
         setHasOptionsMenu(true);
 
         list.setAdapter(adapter);

@@ -28,6 +28,12 @@ import android.view.ViewGroup;
  */
 public interface DoubleHeaderAdapter<H extends RecyclerView.ViewHolder, S extends RecyclerView.ViewHolder> {
 
+    interface DoubleHeaderPositionListener {
+        void onHeaderPositionChanged(long headerId, int x, int y);
+
+        void onSubHeaderPositionChanged(long subHeaderId, int x, int y);
+    }
+
     /**
      * Returns the header id for the item at the given position.
      *

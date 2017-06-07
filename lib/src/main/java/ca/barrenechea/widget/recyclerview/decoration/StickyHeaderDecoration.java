@@ -38,6 +38,8 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
     private boolean mRenderInline;
 
+    private StickyHeaderAdapter.StickyHeaderPositionListener positionListener;
+
     /**
      * @param adapter
      *         the sticky header adapter to use
@@ -54,6 +56,10 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         mAdapter = adapter;
         mHeaderCache = new HashMap<>();
         mRenderInline = renderInline;
+    }
+
+    public void setPositionListener(StickyHeaderAdapter.StickyHeaderPositionListener positionListener) {
+        this.positionListener = positionListener;
     }
 
     /**
@@ -168,6 +174,10 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                     header.setTranslationY(top);
                     header.draw(canvas);
                     canvas.restore();
+
+                    if (positionListener != null) {
+                        positionListener.onPositionChanged(headerId, left, top);
+                    }
                 }
             }
         }

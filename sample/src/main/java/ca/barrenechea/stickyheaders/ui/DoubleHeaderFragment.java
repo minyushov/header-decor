@@ -17,14 +17,18 @@
 package ca.barrenechea.stickyheaders.ui;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import ca.barrenechea.stickyheaders.R;
 import ca.barrenechea.stickyheaders.widget.DoubleHeaderTestAdapter;
+import ca.barrenechea.widget.recyclerview.decoration.DoubleHeaderAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.DoubleHeaderDecoration;
 
 public class DoubleHeaderFragment extends BaseDecorationFragment implements RecyclerView.OnItemTouchListener {
@@ -35,6 +39,18 @@ public class DoubleHeaderFragment extends BaseDecorationFragment implements Recy
     protected void setAdapterAndDecor(RecyclerView list) {
         final DoubleHeaderTestAdapter adapter = new DoubleHeaderTestAdapter(this.getActivity());
         decor = new DoubleHeaderDecoration(adapter);
+        decor.setPositionListener(new DoubleHeaderAdapter.DoubleHeaderPositionListener() {
+            @Override
+            public void onHeaderPositionChanged(long headerId, int x, int y) {
+                Log.d("DoubleHeader", String.format(Locale.US, "Header %s: x = %s, y = %s", headerId, x, y));
+            }
+
+            @Override
+            public void onSubHeaderPositionChanged(long subHeaderId, int x, int y) {
+                Log.d("DoubleHeader", String.format(Locale.US, "SubHeader %s: x = %s, y = %s", subHeaderId, x, y));
+            }
+        });
+
         setHasOptionsMenu(true);
 
         list.setAdapter(adapter);

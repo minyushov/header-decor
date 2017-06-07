@@ -35,6 +35,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
     private Map<Long, RecyclerView.ViewHolder> mHeaderCache;
     private boolean mRenderInline;
     private int betweenHeadersMargin = 0;
+    private DoubleHeaderAdapter.DoubleHeaderPositionListener positionListener;
 
     /**
      * @param adapter the double header adapter to use
@@ -52,6 +53,10 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
         mSubHeaderCache = new HashMap<>();
         mHeaderCache = new HashMap<>();
         mRenderInline = renderInline;
+    }
+
+    public void setPositionListener(DoubleHeaderAdapter.DoubleHeaderPositionListener positionListener) {
+        this.positionListener = positionListener;
     }
 
     /**
@@ -219,7 +224,11 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
             final int adapterPos = parent.getChildAdapterPosition(child);
             if (visible && adapterPos != RecyclerView.NO_POSITION && (!headerDrawn || hasSubHeader(adapterPos) || hasHeader(adapterPos))) {
                 int left, top;
+
+                long headerId = mAdapter.getHeaderId(adapterPos);
                 View header = getHeader(parent, adapterPos).itemView;
+
+                long subHeaderId = mAdapter.getSubHeaderId(adapterPos);
                 View subHeader = getSubHeader(parent, adapterPos).itemView;
 
                 if (hasSubHeader(adapterPos))
@@ -232,6 +241,10 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                     subHeader.setTranslationY(top);
                     subHeader.draw(c);
                     c.restore();
+
+                    if (positionListener != null) {
+                        positionListener.onSubHeaderPositionChanged(subHeaderId, left, top);
+                    }
                 }
                 // draw part of previous subheader which should be visible
                 else if (adapterPos > 0 && mAdapter.getHeaderId(adapterPos) == mAdapter.getHeaderId(adapterPos - 1)) {
@@ -245,6 +258,10 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                     subHeader.setTranslationY(top);
                     subHeader.draw(c);
                     c.restore();
+
+                    if (positionListener != null) {
+                        positionListener.onSubHeaderPositionChanged(subHeaderId, left, top);
+                    }
                 }
 
                 if (!headerDrawn || hasHeader(adapterPos)) {
@@ -257,8 +274,13 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                     header.draw(c);
                     c.restore();
 
+                    if (positionListener != null) {
+                        positionListener.onHeaderPositionChanged(headerId, left, top);
+                    }
+
                     // draw part of previous header which should be visible
                     if (getBetweenHeadersMargin() != 0 && top <= -getBetweenHeadersMargin() && adapterPos > 0 && mAdapter.getHeaderId(adapterPos) != mAdapter.getHeaderId(adapterPos - 1)) {
+                        headerId = mAdapter.getHeaderId(adapterPos - 1);
                         header = getHeader(parent, adapterPos - 1).itemView;
                         child = parent.getChildAt(layoutPos);
 
@@ -271,6 +293,10 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                         header.setTranslationY(top);
                         header.draw(c);
                         c.restore();
+
+                        if (positionListener != null) {
+                            positionListener.onHeaderPositionChanged(headerId, left, top);
+                        }
                     }
                 }
 
