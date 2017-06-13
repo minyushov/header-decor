@@ -74,7 +74,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                 && hasHeader(position)
                 && showHeaderAboveItem(position)) {
 
-            View header = getHeader(parent, position).itemView;
+            View header = getHeader(parent, position, true).itemView;
             headerHeight = getHeaderHeightForLayout(header);
         }
 
@@ -117,11 +117,16 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         return mAdapter.getHeaderId(position) != NO_HEADER_ID;
     }
 
-    private RecyclerView.ViewHolder getHeader(RecyclerView parent, int position) {
+    private RecyclerView.ViewHolder getHeader(RecyclerView parent, int position, boolean shouldBind) {
         final long key = mAdapter.getHeaderId(position);
 
         if (mHeaderCache.containsKey(key)) {
-            return mHeaderCache.get(key);
+            final RecyclerView.ViewHolder holder = mHeaderCache.get(key);
+            if (shouldBind) {
+                //noinspection unchecked
+                mAdapter.onBindHeaderViewHolder(holder, position);
+            }
+            return holder;
         } else {
             final RecyclerView.ViewHolder holder = mAdapter.onCreateHeaderViewHolder(parent);
             final View header = holder.itemView;
@@ -163,7 +168,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
                 if (headerId != previousHeaderId) {
                     previousHeaderId = headerId;
-                    View header = getHeader(parent, adapterPos).itemView;
+                    View header = getHeader(parent, adapterPos, false).itemView;
                     canvas.save();
 
                     final int left = child.getLeft();
@@ -196,7 +201,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                     long nextId = mAdapter.getHeaderId(adapterPosHere);
                     if (nextId != currentId) {
                         final View next = parent.getChildAt(i);
-                        final int offset = ((int) next.getY()) - (headerHeight + getHeader(parent, adapterPosHere).itemView.getHeight());
+                        final int offset = ((int) next.getY()) - (headerHeight + getHeader(parent, adapterPosHere, false).itemView.getHeight());
                         if (offset < 0) {
                             return offset;
                         } else {
