@@ -125,6 +125,9 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             if (shouldBind) {
                 //noinspection unchecked
                 mAdapter.onBindHeaderViewHolder(holder, position);
+                final View header = holder.itemView;
+                header.measure(header.getMeasuredWidth(), header.getMeasuredHeight());
+                header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
             }
             return holder;
         } else {
