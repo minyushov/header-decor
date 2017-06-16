@@ -93,8 +93,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                 //noinspection unchecked
                 mAdapter.onBindSubHeaderHolder(holder, position);
                 final View header = holder.itemView;
-                header.measure(header.getMeasuredWidth(), header.getMeasuredHeight());
-                header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
+                measureView(parent, header);
             }
             return holder;
         } else {
@@ -153,8 +152,7 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
                 //noinspection unchecked
                 mAdapter.onBindHeaderHolder(holder, position);
                 final View header = holder.itemView;
-                header.measure(header.getMeasuredWidth(), header.getMeasuredHeight());
-                header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
+                measureView(parent, header);
             }
             return holder;
         } else {

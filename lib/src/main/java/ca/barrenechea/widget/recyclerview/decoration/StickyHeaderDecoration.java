@@ -126,8 +126,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
                 //noinspection unchecked
                 mAdapter.onBindHeaderViewHolder(holder, position);
                 final View header = holder.itemView;
-                header.measure(header.getMeasuredWidth(), header.getMeasuredHeight());
-                header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
+                measureView(parent, header);
             }
             return holder;
         } else {
@@ -136,22 +135,24 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
             //noinspection unchecked
             mAdapter.onBindHeaderViewHolder(holder, position);
-
-            int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getMeasuredWidth(), View.MeasureSpec.EXACTLY);
-            int heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getMeasuredHeight(), View.MeasureSpec.UNSPECIFIED);
-
-            int childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
-                    parent.getPaddingLeft() + parent.getPaddingRight(), header.getLayoutParams().width);
-            int childHeight = ViewGroup.getChildMeasureSpec(heightSpec,
-                    parent.getPaddingTop() + parent.getPaddingBottom(), header.getLayoutParams().height);
-
-            header.measure(childWidth, childHeight);
-            header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
-
+            measureView(parent, header);
             mHeaderCache.put(key, holder);
 
             return holder;
         }
+    }
+
+    private void measureView(RecyclerView parent, View header) {
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.UNSPECIFIED);
+
+        int childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
+                parent.getPaddingLeft() + parent.getPaddingRight(), header.getLayoutParams().width);
+        int childHeight = ViewGroup.getChildMeasureSpec(heightSpec,
+                parent.getPaddingTop() + parent.getPaddingBottom(), header.getLayoutParams().height);
+
+        header.measure(childWidth, childHeight);
+        header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
     }
 
     /**
