@@ -16,11 +16,13 @@
 
 package ca.barrenechea.widget.recyclerview.decoration;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 /**
- * The adapter to assist the {@link StickyHeaderDecoration} in creating and binding the header views.
+ * The adapter to assist the {@link StickyHeaderDecoration} in creating and binding the header
+ * views.
  *
  * @param <T> the header view holder
  */
@@ -44,12 +46,14 @@ public interface StickyHeaderAdapter<T extends RecyclerView.ViewHolder> {
      * @param parent the header's view parent
      * @return a view holder for the created view
      */
-    T onCreateHeaderViewHolder(ViewGroup parent);
+    @NonNull
+    T onCreateHeaderViewHolder(@NonNull ViewGroup parent);
 
     /**
      * Updates the header view to reflect the header data for the given position
-     * @param viewholder the header view holder
+     *
+     * @param viewHolder the header view holder
      * @param position the header's item position
      */
-    void onBindHeaderViewHolder(T viewholder, int position);
+    void onBindHeaderViewHolder(@NonNull T viewHolder, int position);
 }

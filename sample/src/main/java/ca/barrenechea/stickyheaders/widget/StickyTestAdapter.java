@@ -17,6 +17,7 @@
 package ca.barrenechea.stickyheaders.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +31,15 @@ import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration;
 public class StickyTestAdapter extends RecyclerView.Adapter<StickyTestAdapter.ViewHolder> implements
         StickyHeaderAdapter<StickyTestAdapter.HeaderHolder> {
 
-    private LayoutInflater mInflater;
+    private LayoutInflater inflater;
 
     public StickyTestAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        final View view = mInflater.inflate(R.layout.item_test, viewGroup, false);
+        final View view = inflater.inflate(R.layout.item_test, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -61,17 +62,17 @@ public class StickyTestAdapter extends RecyclerView.Adapter<StickyTestAdapter.Vi
         return (long) position / 7;
     }
 
+    @NonNull
     @Override
-    public HeaderHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        final View view = mInflater.inflate(R.layout.header_test, parent, false);
+    public HeaderHolder onCreateHeaderViewHolder(@NonNull ViewGroup parent) {
+        final View view = inflater.inflate(R.layout.header_test, parent, false);
         return new HeaderHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(HeaderHolder viewholder, int position) {
-        viewholder.header.setText("Header " + getHeaderId(position));
+    public void onBindHeaderViewHolder(@NonNull HeaderHolder viewHolder, int position) {
+        viewHolder.header.setText("Header " + getHeaderId(position));
     }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView item;

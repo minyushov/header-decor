@@ -32,7 +32,6 @@ import ca.barrenechea.widget.recyclerview.decoration.DoubleHeaderAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.DoubleHeaderDecoration;
 
 public class DoubleHeaderFragment extends BaseDecorationFragment implements RecyclerView.OnItemTouchListener {
-
     private DoubleHeaderDecoration decor;
 
     @Override
