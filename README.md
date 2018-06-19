@@ -1,8 +1,6 @@
 # Header-decor
 A couple of sticky header decorations for android's recycler view.
 
-A Sample app is available on Google Play:
-
 ![Header decor sample app image](http://i.imgur.com/xsm1I0F.gif)
 
 ### Setting up the dependency
