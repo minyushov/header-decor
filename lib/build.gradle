@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.minyushov.bintray'
 
 android {
   compileSdkVersion androidCompileSdkVersion
@@ -12,4 +13,15 @@ android {
 dependencies {
   implementation "com.android.support:recyclerview-v7:$androidSupportLibraryVersion"
   implementation "com.android.support:support-annotations:$androidSupportLibraryVersion"
+}
+
+bintrayUpload {
+  dryRun = false
+  repo = libraryRepo
+  groupId = libraryGroupId
+  artifactId = libraryArtifactId
+  version = libraryVersion
+  vcsUrl = libraryVcsUrl
+  license = libraryLicense
+  docs = false
 }
