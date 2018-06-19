@@ -24,36 +24,43 @@ import android.view.ViewGroup;
  * The adapter to assist the {@link StickyHeaderDecoration} in creating and binding the header
  * views.
  *
- * @param <T> the header view holder
+ * @param <T>
+ *   the header view holder
  */
 public interface StickyHeaderAdapter<T extends RecyclerView.ViewHolder> {
 
-    interface StickyHeaderPositionListener {
-        void onPositionChanged(long headerId, int x, int y);
-    }
+  interface StickyHeaderPositionListener {
+    void onPositionChanged(long headerId, int x, int y);
+  }
 
-    /**
-     * Returns the header id for the item at the given position.
-     *
-     * @param position the item position
-     * @return the header id
-     */
-    long getHeaderId(int position);
+  /**
+   * Returns the header id for the item at the given position.
+   *
+   * @param position
+   *   the item position
+   *
+   * @return the header id
+   */
+  long getHeaderId(int position);
 
-    /**
-     * Creates a new header ViewHolder.
-     *
-     * @param parent the header's view parent
-     * @return a view holder for the created view
-     */
-    @NonNull
-    T onCreateHeaderViewHolder(@NonNull ViewGroup parent);
+  /**
+   * Creates a new header ViewHolder.
+   *
+   * @param parent
+   *   the header's view parent
+   *
+   * @return a view holder for the created view
+   */
+  @NonNull
+  T onCreateHeaderViewHolder(@NonNull ViewGroup parent);
 
-    /**
-     * Updates the header view to reflect the header data for the given position
-     *
-     * @param viewHolder the header view holder
-     * @param position the header's item position
-     */
-    void onBindHeaderViewHolder(@NonNull T viewHolder, int position);
+  /**
+   * Updates the header view to reflect the header data for the given position
+   *
+   * @param viewHolder
+   *   the header view holder
+   * @param position
+   *   the header's item position
+   */
+  void onBindHeaderViewHolder(@NonNull T viewHolder, int position);
 }

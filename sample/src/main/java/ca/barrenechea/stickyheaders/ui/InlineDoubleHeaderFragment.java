@@ -28,59 +28,59 @@ import ca.barrenechea.stickyheaders.widget.InlineDoubleHeaderTestAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.DoubleHeaderDecoration;
 
 public class InlineDoubleHeaderFragment extends BaseDecorationFragment implements RecyclerView.OnItemTouchListener {
-    private DoubleHeaderDecoration decor;
+  private DoubleHeaderDecoration decor;
 
-    @Override
-    protected void setAdapterAndDecor(RecyclerView list) {
-        final InlineDoubleHeaderTestAdapter adapter = new InlineDoubleHeaderTestAdapter(this.getActivity());
-        decor = new DoubleHeaderDecoration(adapter, true);
-        setHasOptionsMenu(true);
+  @Override
+  protected void setAdapterAndDecor(RecyclerView list) {
+    final InlineDoubleHeaderTestAdapter adapter = new InlineDoubleHeaderTestAdapter(this.getActivity());
+    decor = new DoubleHeaderDecoration(adapter, true);
+    setHasOptionsMenu(true);
 
-        list.setAdapter(adapter);
-        list.addItemDecoration(decor, 1);
-        list.addOnItemTouchListener(this);
+    list.setAdapter(adapter);
+    list.addItemDecoration(decor, 1);
+    list.addOnItemTouchListener(this);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_clear_cache) {
+      decor.clearDoubleHeaderCache();
+      return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_clear_cache) {
-            decor.clearDoubleHeaderCache();
-            return true;
-        }
+    return super.onOptionsItemSelected(item);
+  }
 
-        return super.onOptionsItemSelected(item);
+  @Override
+  public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+    // really bad click detection just for demonstration purposes
+    // it will not allow the list to scroll if the swipe motion starts
+    // on top of a header
+    return rv.findChildViewUnder(e.getX(), e.getY()) == null;
+  }
+
+  @Override
+  public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    // only use the "UP" motion event, discard all others
+    if (e.getAction() != MotionEvent.ACTION_UP) {
+      return;
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        // really bad click detection just for demonstration purposes
-        // it will not allow the list to scroll if the swipe motion starts
-        // on top of a header
-        return rv.findChildViewUnder(e.getX(), e.getY()) == null;
+    // find the header that was clicked
+    View view = decor.findHeaderViewUnder(e.getX(), e.getY());
+
+    if (view == null) {
+      // or the subheader, if the header is null
+      view = decor.findSubHeaderViewUnder(e.getX(), e.getY());
     }
 
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        // only use the "UP" motion event, discard all others
-        if (e.getAction() != MotionEvent.ACTION_UP) {
-            return;
-        }
-
-        // find the header that was clicked
-        View view = decor.findHeaderViewUnder(e.getX(), e.getY());
-
-        if (view == null) {
-            // or the subheader, if the header is null
-            view = decor.findSubHeaderViewUnder(e.getX(), e.getY());
-        }
-
-        if (view instanceof TextView) {
-            Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
-        }
+    if (view instanceof TextView) {
+      Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
     }
+  }
 
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        // do nothing
-    }
+  @Override
+  public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    // do nothing
+  }
 }

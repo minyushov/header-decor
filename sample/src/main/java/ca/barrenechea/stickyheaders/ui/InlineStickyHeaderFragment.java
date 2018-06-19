@@ -23,28 +23,27 @@ import ca.barrenechea.stickyheaders.R;
 import ca.barrenechea.stickyheaders.widget.InlineStickyTestAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration;
 
-public class InlineStickyHeaderFragment
-        extends BaseDecorationFragment {
+public class InlineStickyHeaderFragment extends BaseDecorationFragment {
 
-    private StickyHeaderDecoration decor;
+  private StickyHeaderDecoration decor;
 
-    @Override
-    protected void setAdapterAndDecor(RecyclerView list) {
-        final InlineStickyTestAdapter adapter = new InlineStickyTestAdapter(this.getActivity());
-        decor = new StickyHeaderDecoration(adapter, true);
-        setHasOptionsMenu(true);
+  @Override
+  protected void setAdapterAndDecor(RecyclerView list) {
+    final InlineStickyTestAdapter adapter = new InlineStickyTestAdapter(this.getActivity());
+    decor = new StickyHeaderDecoration(adapter, true);
+    setHasOptionsMenu(true);
 
-        list.setAdapter(adapter);
-        list.addItemDecoration(decor, 1);
+    list.setAdapter(adapter);
+    list.addItemDecoration(decor, 1);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_clear_cache) {
+      decor.clearHeaderCache();
+      return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_clear_cache) {
-            decor.clearHeaderCache();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    return super.onOptionsItemSelected(item);
+  }
 }

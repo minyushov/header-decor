@@ -32,63 +32,63 @@ import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderAdapter;
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderDecoration;
 
 public class StickyHeaderFragment extends BaseDecorationFragment implements RecyclerView.OnItemTouchListener {
-    private StickyHeaderDecoration decor;
+  private StickyHeaderDecoration decor;
 
-    @Override
-    protected void setAdapterAndDecor(RecyclerView list) {
-        final StickyTestAdapter adapter = new StickyTestAdapter(this.getActivity());
-        decor = new StickyHeaderDecoration(adapter);
-        decor.setPositionListener(new StickyHeaderAdapter.StickyHeaderPositionListener() {
-            @Override
-            public void onPositionChanged(long headerId, int x, int y) {
-                Log.d("StickyHeader", String.format(Locale.US, "Header %s: x = %s, y = %s", headerId, x, y));
-            }
-        });
+  @Override
+  protected void setAdapterAndDecor(RecyclerView list) {
+    final StickyTestAdapter adapter = new StickyTestAdapter(this.getActivity());
+    decor = new StickyHeaderDecoration(adapter);
+    decor.setPositionListener(new StickyHeaderAdapter.StickyHeaderPositionListener() {
+      @Override
+      public void onPositionChanged(long headerId, int x, int y) {
+        Log.d("StickyHeader", String.format(Locale.US, "Header %s: x = %s, y = %s", headerId, x, y));
+      }
+    });
 
-        setHasOptionsMenu(true);
+    setHasOptionsMenu(true);
 
-        list.setAdapter(adapter);
-        list.addItemDecoration(decor, 1);
-        list.addOnItemTouchListener(this);
+    list.setAdapter(adapter);
+    list.addItemDecoration(decor, 1);
+    list.addOnItemTouchListener(this);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_clear_cache) {
+      decor.clearHeaderCache();
+      return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_clear_cache) {
-            decor.clearHeaderCache();
-            return true;
-        }
+    return super.onOptionsItemSelected(item);
+  }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        // really bad click detection just for demonstration purposes
-        // it will not allow the list to scroll if the swipe motion starts
-        // on top of a header
-        View v = rv.findChildViewUnder(e.getX(), e.getY());
-        return v == null;
+  @Override
+  public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+    // really bad click detection just for demonstration purposes
+    // it will not allow the list to scroll if the swipe motion starts
+    // on top of a header
+    View v = rv.findChildViewUnder(e.getX(), e.getY());
+    return v == null;
 //        return rv.findChildViewUnder(e.getX(), e.getY()) != null;
+  }
+
+  @Override
+  public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    // only use the "UP" motion event, discard all others
+    if (e.getAction() != MotionEvent.ACTION_UP) {
+      return;
     }
 
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        // only use the "UP" motion event, discard all others
-        if (e.getAction() != MotionEvent.ACTION_UP) {
-            return;
-        }
+    // find the header that was clicked
+    View view = decor.findHeaderViewUnder(e.getX(), e.getY());
 
-        // find the header that was clicked
-        View view = decor.findHeaderViewUnder(e.getX(), e.getY());
-
-        if (view instanceof TextView) {
-            Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
-        }
+    if (view instanceof TextView) {
+      Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
     }
+  }
 
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        // do nothing
-    }
+  @Override
+  public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    // do nothing
+  }
 }

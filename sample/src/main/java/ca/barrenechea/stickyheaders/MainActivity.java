@@ -33,83 +33,83 @@ import ca.barrenechea.stickyheaders.ui.InlineStickyHeaderFragment;
 import ca.barrenechea.stickyheaders.ui.StickyHeaderFragment;
 
 public class MainActivity extends FragmentActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-        HeaderPagerAdapter adapter = new HeaderPagerAdapter(this.getSupportFragmentManager());
+    HeaderPagerAdapter adapter = new HeaderPagerAdapter(this.getSupportFragmentManager());
 
-        ViewPager pager = (ViewPager) this.findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+    ViewPager pager = (ViewPager) this.findViewById(R.id.pager);
+    pager.setAdapter(adapter);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    this.getMenuInflater().inflate(R.menu.activity_main, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.action_about) {
+      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/edubarr/header-decor"));
+      this.startActivity(intent);
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  class HeaderPagerAdapter extends FragmentPagerAdapter {
+
+    public HeaderPagerAdapter(FragmentManager fm) {
+      super(fm);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+    public Fragment getItem(int position) {
+      switch (position) {
+        case 0:
+          return new StickyHeaderFragment();
+
+        case 1:
+          return new InlineStickyHeaderFragment();
+
+        case 2:
+          return new DoubleHeaderFragment();
+
+        case 3:
+          return new InlineDoubleHeaderFragment();
+
+        default:
+          return null;
+      }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/edubarr/header-decor"));
-            this.startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public int getCount() {
+      return 4;
     }
 
-    class HeaderPagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public CharSequence getPageTitle(int position) {
+      switch (position) {
+        case 0:
+          return "Sticky Header";
 
-        public HeaderPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+        case 1:
+          return "Sticky Header - Inline";
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new StickyHeaderFragment();
+        case 2:
+          return "Double Header";
 
-                case 1:
-                    return new InlineStickyHeaderFragment();
+        case 3:
+          return "Double Header - Inline";
 
-                case 2:
-                    return new DoubleHeaderFragment();
-
-                case 3:
-                    return new InlineDoubleHeaderFragment();
-
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 4;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Sticky Header";
-
-                case 1:
-                    return "Sticky Header - Inline";
-
-                case 2:
-                    return "Double Header";
-
-                case 3:
-                    return "Double Header - Inline";
-
-                default:
-                    return null;
-            }
-        }
+        default:
+          return null;
+      }
     }
+  }
 }
