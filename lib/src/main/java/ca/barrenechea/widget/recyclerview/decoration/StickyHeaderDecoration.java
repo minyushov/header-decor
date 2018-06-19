@@ -37,6 +37,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
   private Map<Long, RecyclerView.ViewHolder> headerCache;
   private StickyHeaderAdapter adapter;
   private boolean renderInline;
+  private final Rect itemBounds = new Rect();
 
   private StickyHeaderAdapter.StickyHeaderPositionListener positionListener;
 
@@ -170,12 +171,15 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         long headerId = adapter.getHeaderId(adapterPos);
 
         if (headerId != previousHeaderId) {
+          itemBounds.set(0, 0, 0, 0);
+          parent.getDecoratedBoundsWithMargins(child, itemBounds);
+
           previousHeaderId = headerId;
           View header = getHeader(parent, adapterPos, false).itemView;
           canvas.save();
 
-          final int left = child.getLeft();
-          final int top = getHeaderTop(parent, child, header, adapterPos, layoutPos);
+          final int left = itemBounds.left;
+          final int top = getHeaderTop(parent, itemBounds.top, header, adapterPos, layoutPos);
           canvas.translate(left, top);
 
           header.setTranslationX(left);
@@ -191,10 +195,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     }
   }
 
-  private int getHeaderTop(@NonNull RecyclerView parent, @NonNull View child, @NonNull View header, int adapterPos, int layoutPos) {
-
-    int headerHeight = getHeaderHeightForLayout(header);
-    int top = ((int) child.getY()) - headerHeight;
+  private int getHeaderTop(@NonNull RecyclerView parent, int top, @NonNull View header, int adapterPos, int layoutPos) {
     if (layoutPos == 0) {
       final int count = parent.getChildCount();
       final long currentId = adapter.getHeaderId(adapterPos);
@@ -205,7 +206,10 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
           long nextId = adapter.getHeaderId(adapterPosHere);
           if (nextId != currentId) {
             final View next = parent.getChildAt(i);
-            final int offset = ((int) next.getY()) - (headerHeight + getHeader(parent, adapterPosHere, false).itemView.getHeight());
+            itemBounds.set(0, 0, 0, 0);
+            parent.getDecoratedBoundsWithMargins(next, itemBounds);
+
+            final int offset = ((int) next.getY()) - (itemBounds.top + getHeader(parent, adapterPosHere, false).itemView.getHeight());
             if (offset < 0) {
               return offset;
             } else {
