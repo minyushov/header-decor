@@ -1,19 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion androidCompileSdkVersion
+  compileSdkVersion androidCompileSdkVersion
 
-    defaultConfig {
-        applicationId "ca.barrenechea.stickyheaders"
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
-        versionCode 1
-        versionName "1.0"
-    }
+  defaultConfig {
+    applicationId "ca.barrenechea.stickyheaders"
+    minSdkVersion androidMinSdkVersion
+    targetSdkVersion androidTargetSdkVersion
+    versionCode 1
+    versionName "1.0"
+  }
 }
 
 dependencies {
-    implementation project(':lib')
-    implementation "com.android.support:support-v4:$androidSupportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$androidSupportLibraryVersion"
+  implementation project(':lib')
+  implementation "com.android.support:recyclerview-v7:$androidSupportLibraryVersion"
 }

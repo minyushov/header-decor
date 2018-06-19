@@ -1,30 +1,30 @@
 buildscript {
-    ext {
-        androidMinSdkVersion = 17
-        androidCompileSdkVersion = 27
-        androidTargetSdkVersion = 27
-        androidSupportLibraryVersion = "27.1.1"
+  ext {
+    androidMinSdkVersion = 17
+    androidCompileSdkVersion = 27
+    androidTargetSdkVersion = 27
+    androidSupportLibraryVersion = "27.1.1"
 
-        libraryVersion = "0.3.0"
-        libraryRepo = "android"
-        libraryGroupId = "com.minyushov.android"
-        libraryVcsUrl = "https://github.com/minyushov/header-decor.git"
-        libraryLicense = "Apache-2.0"
-    }
+    libraryVersion = "0.3.0"
+    libraryRepo = "android"
+    libraryGroupId = "com.minyushov.android"
+    libraryVcsUrl = "https://github.com/minyushov/header-decor.git"
+    libraryLicense = "Apache-2.0"
+  }
 
-    repositories {
-        jcenter()
-        google()
-    }
+  repositories {
+    jcenter()
+    google()
+  }
 
-    dependencies {
-        classpath "com.android.tools.build:gradle:3.1.3"
-    }
+  dependencies {
+    classpath "com.android.tools.build:gradle:3.1.3"
+  }
 }
 
 allprojects {
-    repositories {
-        jcenter()
-        google()
-    }
+  repositories {
+    jcenter()
+    google()
+  }
 }
