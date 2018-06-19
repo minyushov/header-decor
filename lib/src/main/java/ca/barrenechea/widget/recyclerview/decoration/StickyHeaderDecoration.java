@@ -76,7 +76,9 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
       headerHeight = getHeaderHeightForLayout(header);
     }
 
-    outRect.set(0, headerHeight, 0, 0);
+    if (headerHeight > 0) {
+      outRect.set(0, headerHeight, 0, 0);
+    }
   }
 
   private boolean showHeaderAboveItem(int itemAdapterPosition) {
@@ -208,7 +210,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             itemBounds.set(0, 0, 0, 0);
             parent.getDecoratedBoundsWithMargins(next, itemBounds);
 
-            final int offset = ((int) next.getY()) - (itemBounds.top + getHeader(parent, adapterPosHere, false).itemView.getHeight());
+            final int offset = itemBounds.top - getHeader(parent, adapterPosHere, false).itemView.getHeight();
             if (offset < 0) {
               return offset;
             } else {
