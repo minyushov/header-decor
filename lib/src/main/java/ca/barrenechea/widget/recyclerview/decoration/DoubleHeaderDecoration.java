@@ -118,8 +118,8 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
   public View findHeaderViewUnder(float x, float y) {
     for (RecyclerView.ViewHolder holder : headerCache.values()) {
       final View child = holder.itemView;
-      final float translationX = ViewCompat.getTranslationX(child);
-      final float translationY = ViewCompat.getTranslationY(child);
+      final float translationX = child.getTranslationX();
+      final float translationY = child.getTranslationY();
 
       if (x >= child.getLeft() + translationX &&
         x <= child.getRight() + translationX &&
@@ -136,8 +136,8 @@ public class DoubleHeaderDecoration extends RecyclerView.ItemDecoration {
   public View findSubHeaderViewUnder(float x, float y) {
     for (RecyclerView.ViewHolder holder : subHeaderCache.values()) {
       final View child = holder.itemView;
-      final float translationX = ViewCompat.getTranslationX(child);
-      final float translationY = ViewCompat.getTranslationY(child);
+      final float translationX = child.getTranslationX();
+      final float translationY = child.getTranslationY();
 
       if (x >= child.getLeft() + translationX &&
         x <= child.getRight() + translationX &&

@@ -20,7 +20,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,8 +98,8 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
   public View findHeaderViewUnder(float x, float y) {
     for (RecyclerView.ViewHolder holder : headerCache.values()) {
       final View child = holder.itemView;
-      final float translationX = ViewCompat.getTranslationX(child);
-      final float translationY = ViewCompat.getTranslationY(child);
+      final float translationX = child.getTranslationX();
+      final float translationY = child.getTranslationY();
 
       if (x >= child.getLeft() + translationX &&
         x <= child.getRight() + translationX &&
@@ -179,7 +178,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
           canvas.save();
 
           final int left = itemBounds.left;
-          final int top = getHeaderTop(parent, itemBounds.top, header, adapterPos, layoutPos);
+          final int top = getHeaderTop(parent, itemBounds.top, adapterPos, layoutPos);
           canvas.translate(left, top);
 
           header.setTranslationX(left);
@@ -195,7 +194,7 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     }
   }
 
-  private int getHeaderTop(@NonNull RecyclerView parent, int top, @NonNull View header, int adapterPos, int layoutPos) {
+  private int getHeaderTop(@NonNull RecyclerView parent, int top, int adapterPos, int layoutPos) {
     if (layoutPos == 0) {
       final int count = parent.getChildCount();
       final long currentId = adapter.getHeaderId(adapterPos);
