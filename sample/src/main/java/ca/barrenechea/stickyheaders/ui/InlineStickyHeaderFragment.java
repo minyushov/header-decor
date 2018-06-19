@@ -29,12 +29,12 @@ public class InlineStickyHeaderFragment extends BaseDecorationFragment {
 
   @Override
   protected void setAdapterAndDecor(RecyclerView list) {
-    final InlineStickyTestAdapter adapter = new InlineStickyTestAdapter(this.getActivity());
+    InlineStickyTestAdapter adapter = new InlineStickyTestAdapter(this.getActivity());
     decor = new StickyHeaderDecoration(adapter, true);
     setHasOptionsMenu(true);
 
     list.setAdapter(adapter);
-    list.addItemDecoration(decor, 1);
+    list.addItemDecoration(decor);
   }
 
   @Override

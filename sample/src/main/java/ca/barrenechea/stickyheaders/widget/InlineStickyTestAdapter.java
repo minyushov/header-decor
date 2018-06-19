@@ -24,12 +24,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import ca.barrenechea.stickyheaders.R;
 import ca.barrenechea.widget.recyclerview.decoration.StickyHeaderAdapter;
 
 public class InlineStickyTestAdapter extends RecyclerView.Adapter<InlineStickyTestAdapter.ViewHolder> implements StickyHeaderAdapter<InlineStickyTestAdapter.HeaderHolder> {
-
-  private LayoutInflater inflater;
+  private final LayoutInflater inflater;
 
   public InlineStickyTestAdapter(Context context) {
     inflater = LayoutInflater.from(context);
@@ -37,43 +38,40 @@ public class InlineStickyTestAdapter extends RecyclerView.Adapter<InlineStickyTe
 
   @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-    final View view = inflater.inflate(R.layout.item_inline_test, viewGroup, false);
-
-    return new ViewHolder(view);
+  public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    return new ViewHolder(inflater.inflate(R.layout.item_inline_test, viewGroup, false));
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-    viewHolder.item.setText("Item " + i);
+  public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    viewHolder.item.setText(String.format(Locale.US, "Item %s", position));
   }
 
   @Override
   public int getItemCount() {
-    return 8;
+    return 30;
   }
 
   @Override
   public long getHeaderId(int position) {
-    return (long) position / 1;
+    return (long) position % 2;
   }
 
   @NonNull
   @Override
   public HeaderHolder onCreateHeaderViewHolder(@NonNull ViewGroup parent) {
-    final View view = inflater.inflate(R.layout.header_inline_test, parent, false);
-    return new HeaderHolder(view);
+    return new HeaderHolder(inflater.inflate(R.layout.header_inline_test, parent, false));
   }
 
   @Override
   public void onBindHeaderViewHolder(@NonNull HeaderHolder viewHolder, int position) {
-    viewHolder.header.setText(getHeaderId(position) + "");
+    viewHolder.header.setText(String.valueOf(getHeaderId(position)));
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-    public TextView item;
+    TextView item;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
 
       item = (TextView) itemView;
@@ -81,9 +79,9 @@ public class InlineStickyTestAdapter extends RecyclerView.Adapter<InlineStickyTe
   }
 
   static class HeaderHolder extends RecyclerView.ViewHolder {
-    public TextView header;
+    TextView header;
 
-    public HeaderHolder(View itemView) {
+    HeaderHolder(View itemView) {
       super(itemView);
 
       header = (TextView) itemView;
