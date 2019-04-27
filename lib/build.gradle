@@ -8,11 +8,17 @@ android {
     minSdkVersion androidMinSdkVersion
     targetSdkVersion androidTargetSdkVersion
   }
+
+  libraryVariants.all {
+    it.generateBuildConfigProvider.configure {
+      it.enabled = false
+    }
+  }
 }
 
 dependencies {
-  implementation "com.android.support:recyclerview-v7:$androidSupportLibraryVersion"
-  implementation "com.android.support:support-annotations:$androidSupportLibraryVersion"
+  implementation 'androidx.recyclerview:recyclerview:1.0.0'
+  implementation 'androidx.annotation:annotation:1.0.2'
 }
 
 bintrayUpload {

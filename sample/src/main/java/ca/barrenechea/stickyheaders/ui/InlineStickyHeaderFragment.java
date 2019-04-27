@@ -16,8 +16,9 @@
 
 package ca.barrenechea.stickyheaders.ui;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import ca.barrenechea.stickyheaders.R;
 import ca.barrenechea.stickyheaders.widget.InlineStickyTestAdapter;
