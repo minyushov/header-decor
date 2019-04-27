@@ -4,7 +4,7 @@ buildscript {
     androidCompileSdkVersion = 28
     androidTargetSdkVersion = 28
 
-    libraryVersion = "0.3.0"
+    libraryVersion = "0.4.0"
     libraryRepo = "android"
     libraryGroupId = "com.minyushov.android"
     libraryArtifactId = "header-decor"
