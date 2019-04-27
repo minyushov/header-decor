@@ -91,7 +91,7 @@ public class DoubleHeaderTestAdapter extends RecyclerView.Adapter<DoubleHeaderTe
   static class ViewHolder extends RecyclerView.ViewHolder {
     public TextView item;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
 
       item = (TextView) itemView;
@@ -99,9 +99,9 @@ public class DoubleHeaderTestAdapter extends RecyclerView.Adapter<DoubleHeaderTe
   }
 
   static class HeaderHolder extends RecyclerView.ViewHolder {
-    public TextView timeline;
+    TextView timeline;
 
-    public HeaderHolder(View itemView) {
+    HeaderHolder(View itemView) {
       super(itemView);
 
       timeline = (TextView) itemView;
@@ -109,9 +109,9 @@ public class DoubleHeaderTestAdapter extends RecyclerView.Adapter<DoubleHeaderTe
   }
 
   static class SubHeaderHolder extends RecyclerView.ViewHolder {
-    public TextView date;
+    TextView date;
 
-    public SubHeaderHolder(View itemView) {
+    SubHeaderHolder(View itemView) {
       super(itemView);
 
       date = (TextView) itemView;

@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ca.barrenechea.stickyheaders.R;
@@ -33,7 +34,7 @@ public class InlineDoubleHeaderFragment extends BaseDecorationFragment implement
 
   @Override
   protected void setAdapterAndDecor(RecyclerView list) {
-    final InlineDoubleHeaderTestAdapter adapter = new InlineDoubleHeaderTestAdapter(this.getActivity());
+    final InlineDoubleHeaderTestAdapter adapter = new InlineDoubleHeaderTestAdapter(getContext());
     decor = new DoubleHeaderDecoration(adapter, true);
     setHasOptionsMenu(true);
 
@@ -61,7 +62,7 @@ public class InlineDoubleHeaderFragment extends BaseDecorationFragment implement
   }
 
   @Override
-  public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+  public void onTouchEvent(@NonNull RecyclerView rv, MotionEvent e) {
     // only use the "UP" motion event, discard all others
     if (e.getAction() != MotionEvent.ACTION_UP) {
       return;
@@ -76,7 +77,7 @@ public class InlineDoubleHeaderFragment extends BaseDecorationFragment implement
     }
 
     if (view instanceof TextView) {
-      Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
     }
   }
 

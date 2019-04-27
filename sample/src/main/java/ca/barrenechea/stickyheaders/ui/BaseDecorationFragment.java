@@ -35,9 +35,9 @@ public abstract class BaseDecorationFragment extends Fragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.fragment_recycler, container, false);
+    View view = inflater.inflate(R.layout.fragment_recycler, container, false);
 
-    list = (RecyclerView) view.findViewById(R.id.list);
+    list = view.findViewById(R.id.list);
 
     return view;
   }
@@ -46,14 +46,14 @@ public abstract class BaseDecorationFragment extends Fragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    final DividerDecoration divider = new DividerDecoration.Builder(this.getActivity())
+    final DividerDecoration divider = new DividerDecoration.Builder(requireContext())
       .setHeight(R.dimen.default_divider_height)
       .setPadding(R.dimen.default_divider_padding)
       .setColorResource(R.color.default_header_color)
       .build();
 
     list.setHasFixedSize(true);
-    list.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    list.setLayoutManager(new LinearLayoutManager(getContext()));
     list.addItemDecoration(divider);
 
     setAdapterAndDecor(list);

@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
@@ -37,7 +38,7 @@ public class DoubleHeaderFragment extends BaseDecorationFragment implements Recy
 
   @Override
   protected void setAdapterAndDecor(RecyclerView list) {
-    final DoubleHeaderTestAdapter adapter = new DoubleHeaderTestAdapter(this.getActivity());
+    final DoubleHeaderTestAdapter adapter = new DoubleHeaderTestAdapter(getContext());
     decor = new DoubleHeaderDecoration(adapter);
     decor.setPositionListener(new DoubleHeaderAdapter.DoubleHeaderPositionListener() {
       @Override
@@ -77,7 +78,7 @@ public class DoubleHeaderFragment extends BaseDecorationFragment implements Recy
   }
 
   @Override
-  public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+  public void onTouchEvent(@NonNull RecyclerView rv, MotionEvent e) {
     // only use the "UP" motion event, discard all others
     if (e.getAction() != MotionEvent.ACTION_UP) {
       return;
@@ -92,7 +93,7 @@ public class DoubleHeaderFragment extends BaseDecorationFragment implements Recy
     }
 
     if (view instanceof TextView) {
-      Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
     }
   }
 

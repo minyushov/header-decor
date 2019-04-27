@@ -89,9 +89,9 @@ public class InlineDoubleHeaderTestAdapter extends RecyclerView.Adapter<InlineDo
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-    public TextView item;
+    TextView item;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
 
       item = (TextView) itemView;
@@ -99,9 +99,9 @@ public class InlineDoubleHeaderTestAdapter extends RecyclerView.Adapter<InlineDo
   }
 
   static class HeaderHolder extends RecyclerView.ViewHolder {
-    public TextView timeline;
+    TextView timeline;
 
-    public HeaderHolder(View itemView) {
+    HeaderHolder(View itemView) {
       super(itemView);
 
       timeline = (TextView) itemView;
@@ -109,9 +109,9 @@ public class InlineDoubleHeaderTestAdapter extends RecyclerView.Adapter<InlineDo
   }
 
   static class SubHeaderHolder extends RecyclerView.ViewHolder {
-    public TextView date;
+    TextView date;
 
-    public SubHeaderHolder(View itemView) {
+    SubHeaderHolder(View itemView) {
       super(itemView);
 
       date = (TextView) itemView;

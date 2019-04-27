@@ -39,9 +39,9 @@ public class MainActivity extends FragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    HeaderPagerAdapter adapter = new HeaderPagerAdapter(this.getSupportFragmentManager());
+    HeaderPagerAdapter adapter = new HeaderPagerAdapter(getSupportFragmentManager());
 
-    ViewPager pager = (ViewPager) this.findViewById(R.id.pager);
+    ViewPager pager = findViewById(R.id.pager);
     pager.setAdapter(adapter);
   }
 
@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity {
 
   class HeaderPagerAdapter extends FragmentPagerAdapter {
 
-    public HeaderPagerAdapter(FragmentManager fm) {
+    HeaderPagerAdapter(FragmentManager fm) {
       super(fm);
     }
 

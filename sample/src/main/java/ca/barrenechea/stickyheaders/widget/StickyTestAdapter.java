@@ -37,8 +37,9 @@ public class StickyTestAdapter extends RecyclerView.Adapter<StickyTestAdapter.Vi
     inflater = LayoutInflater.from(context);
   }
 
+  @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+  public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
     final View view = inflater.inflate(R.layout.item_test, viewGroup, false);
 
     return new ViewHolder(view);
@@ -75,9 +76,9 @@ public class StickyTestAdapter extends RecyclerView.Adapter<StickyTestAdapter.Vi
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
-    public TextView item;
+    TextView item;
 
-    public ViewHolder(View itemView) {
+    ViewHolder(View itemView) {
       super(itemView);
 
       item = (TextView) itemView;
@@ -85,9 +86,9 @@ public class StickyTestAdapter extends RecyclerView.Adapter<StickyTestAdapter.Vi
   }
 
   static class HeaderHolder extends RecyclerView.ViewHolder {
-    public TextView header;
+    TextView header;
 
-    public HeaderHolder(View itemView) {
+    HeaderHolder(View itemView) {
       super(itemView);
 
       header = (TextView) itemView;

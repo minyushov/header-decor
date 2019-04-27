@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Locale;
@@ -37,7 +38,7 @@ public class StickyHeaderFragment extends BaseDecorationFragment implements Recy
 
   @Override
   protected void setAdapterAndDecor(RecyclerView list) {
-    final StickyTestAdapter adapter = new StickyTestAdapter(this.getActivity());
+    final StickyTestAdapter adapter = new StickyTestAdapter(getContext());
     decor = new StickyHeaderDecoration(adapter);
     decor.setPositionListener(new StickyHeaderAdapter.StickyHeaderPositionListener() {
       @Override
@@ -74,7 +75,7 @@ public class StickyHeaderFragment extends BaseDecorationFragment implements Recy
   }
 
   @Override
-  public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+  public void onTouchEvent(@NonNull RecyclerView rv, MotionEvent e) {
     // only use the "UP" motion event, discard all others
     if (e.getAction() != MotionEvent.ACTION_UP) {
       return;
@@ -84,7 +85,7 @@ public class StickyHeaderFragment extends BaseDecorationFragment implements Recy
     View view = decor.findHeaderViewUnder(e.getX(), e.getY());
 
     if (view instanceof TextView) {
-      Toast.makeText(this.getActivity(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), ((TextView) view).getText() + " clicked", Toast.LENGTH_SHORT).show();
     }
   }
 
